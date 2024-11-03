@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - Portal
+  - Kichenclockhands
+  - twofloorkey
+  - KeyOne
+  - SafetyZone
   layers:
   - Default
   - TransparentFX

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public static Player Instance;
 
     /* private BoxCollider2D boxColl;
      public LayerMask layermask;*/
@@ -17,25 +18,42 @@ public class Player : MonoBehaviour
 
     public List<Sprite> list_Spt = new List<Sprite>();
     public List<Sprite> list_Stop = new List<Sprite>();
+    public List<Sprite> list_Down = new List<Sprite>();
 
     SpriteRenderer sprt_rander;
     int i_indexNum;
-
+    int i_indexNumTwo;
     public float f_AniwaitTime = 0.3f;
+    public float f_AniwaitTimeMv = 0.03f;
     float f_waitTime_cur = 0;
-    bool b_AnimeCheck = false;
+    public bool b_AnimeCheck = false;
     public bool b_MoveStop = true;
+
+
+    public bool b_Down = false;
+    public bool b_Safety = false;
+
+
+    public bool b_haveKey = false;
+    public bool b_haveNeedle = false;
+    public bool b_haveKnive = false;
+	public bool b_lastKey = false;
+
+
+
     private void Awake()
     {
+        Instance = this;
         scr_Game_MNG.b_StartCheck = true;
         Debug.Log(scr_Game_MNG.b_StartCheck);
         b_filp_X = false;
-        p_Speed = 2f;
+        p_Speed = 1.5f;
     }
     // Use this for initialization
 
     void Start()
     {
+        //Time.timeScale = 2;
 
         //  DontDestroyOnLoad(this.gameObject);
         //  boxColl = GetComponent<BoxCollider2D>();
@@ -43,21 +61,31 @@ public class Player : MonoBehaviour
         scr_Game_MNG.b_StartCheck = true;
         b_AnimeCheck = true;
 
+
+
     }
 
     // Update is called once per frame
     void Update()
     {
 
+       // print(b_haveKey + "DADA");
 
         if (scr_Game_MNG.b_StartCheck)
         {
             if(Input.GetKey(KeyCode.D))
-            { }
+            {
+
+            }
             else if(Input.GetKey(KeyCode.A))
-            { }
-                else if(Input.GetKey(KeyCode.S))
-            { }else if(Input.GetKey(KeyCode.W))
+            {
+
+            }
+            else if(Input.GetKey(KeyCode.S))
+            {
+
+            }
+            else if(Input.GetKey(KeyCode.W))
             {
 
             }
@@ -66,22 +94,37 @@ public class Player : MonoBehaviour
                 b_MoveStop = true;
             }
 
+            if(Input.GetKey(KeyCode.R))
+            {
+                sprt_rander.sprite = list_Down[0];
+                b_Down = true;
+                if (b_Down)
+                { return; }
+            }
+            else
+            {
+                b_Down = false;
+            }
+
 
             if (b_MoveStop)
             {
                 if (b_AnimeCheck)
                 {
-
+                    if(i_indexNum >= list_Stop.Count)
+                    {
+                        i_indexNum = 0;
+                    }
                     f_waitTime_cur += Time.deltaTime;
                     if (f_waitTime_cur > f_AniwaitTime)
                     {
-                        b_AnimeCheck = false;
+                       // b_AnimeCheck = false;
                         f_waitTime_cur = 0;
 
                         sprt_rander.sprite = list_Stop[i_indexNum];
                         i_indexNum++;
-                        Debug.Log(i_indexNum); b_AnimeCheck = true;
-                        if (i_indexNum >= list_Spt.Count)
+                        //Debug.Log(i_indexNum); b_AnimeCheck = true;
+                        if (i_indexNum >= list_Stop.Count)
                         {
                             i_indexNum = 0;
                         }
@@ -98,25 +141,22 @@ public class Player : MonoBehaviour
                     transform.localScale = new Vector3(-1, transform.localScale.y, transform.localScale.z);
                 if (b_AnimeCheck)
                 {
-                    /*RaycastHit2D hit;
-
-                    Vector2 start = transform.position;
-                    Vector2 end=start+new Vector2()*/
-
                     f_waitTime_cur += Time.deltaTime;
-                    if (f_waitTime_cur > f_AniwaitTime)
+                    if (f_waitTime_cur > f_AniwaitTimeMv)
                     {
-                        b_AnimeCheck = false;
-                        f_waitTime_cur = 0;
-
-                        sprt_rander.sprite = list_Spt[i_indexNum];
-                        i_indexNum++;
-                        Debug.Log(i_indexNum); b_AnimeCheck = true;
                         if (i_indexNum >= list_Spt.Count)
                         {
                             i_indexNum = 0;
                         }
+                        //b_AnimeCheck = false;
+                        f_waitTime_cur = 0;
+
+                        sprt_rander.sprite = list_Spt[i_indexNum];
+                        i_indexNum++;
+                     //   Debug.Log(i_indexNum); b_AnimeCheck = true;
+
                     }
+
                 }
             }
             else
@@ -136,18 +176,20 @@ public class Player : MonoBehaviour
                 if (b_AnimeCheck)
                 {
                     f_waitTime_cur += Time.deltaTime;
-                    if (f_waitTime_cur > f_AniwaitTime)
+                    if (f_waitTime_cur > f_AniwaitTimeMv)
                     {
-                        b_AnimeCheck = false;
-                        f_waitTime_cur = 0;
-
-                        sprt_rander.sprite = list_Spt[i_indexNum];
-                        i_indexNum++;
-                        Debug.Log(i_indexNum); b_AnimeCheck = true;
                         if (i_indexNum >= list_Spt.Count)
                         {
                             i_indexNum = 0;
                         }
+                        //b_AnimeCheck = false;
+                        f_waitTime_cur = 0;
+
+                        sprt_rander.sprite = list_Spt[i_indexNum];
+                        i_indexNum++;
+                        // Debug.Log(i_indexNum);
+                        b_AnimeCheck = true;
+                      
                     }
 
                 }
@@ -167,18 +209,20 @@ public class Player : MonoBehaviour
                 if (b_AnimeCheck)
                 {
                     f_waitTime_cur += Time.deltaTime;
-                    if (f_waitTime_cur > f_AniwaitTime)
+                    if (f_waitTime_cur > f_AniwaitTimeMv)
                     {
-                        b_AnimeCheck = false;
-                        f_waitTime_cur = 0;
-
-                        sprt_rander.sprite = list_Spt[i_indexNum];
-                        i_indexNum++;
-                        Debug.Log(i_indexNum); b_AnimeCheck = true;
                         if (i_indexNum >= list_Spt.Count)
                         {
                             i_indexNum = 0;
                         }
+                        //b_AnimeCheck = false;
+                        f_waitTime_cur = 0;
+
+                        sprt_rander.sprite = list_Spt[i_indexNum];
+                        i_indexNum++;
+                        //Debug.Log(i_indexNum);
+                        b_AnimeCheck = true;
+                     
                     }
 
                 }
@@ -198,18 +242,20 @@ public class Player : MonoBehaviour
                 if (b_AnimeCheck)
                 {
                     f_waitTime_cur += Time.deltaTime;
-                    if (f_waitTime_cur > f_AniwaitTime)
+                    if (f_waitTime_cur > f_AniwaitTimeMv)
                     {
-                        b_AnimeCheck = false;
-                        f_waitTime_cur = 0;
-
-                        sprt_rander.sprite = list_Spt[i_indexNum];
-                        i_indexNum++;
-                        Debug.Log(i_indexNum); b_AnimeCheck = true;
                         if (i_indexNum >= list_Spt.Count)
                         {
                             i_indexNum = 0;
                         }
+                        //b_AnimeCheck = false;
+                        f_waitTime_cur = 0;
+
+                        sprt_rander.sprite = list_Spt[i_indexNum];
+                        i_indexNum++;
+                        //Debug.Log(i_indexNum);
+                        b_AnimeCheck = true;
+                       
                     }
                 }
             }
@@ -242,13 +288,38 @@ public class Player : MonoBehaviour
          }*/
     }//update
     private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Portal"))
-        {
-            PortalScript.Instance.PortalState();
-        }
+	{
+		if (collision.CompareTag("SafetyZone")) {
+
+			b_Safety = true;
+		} else {
+		}
+
+
+		if (collision.CompareTag ("Portal")) {
+			if (collision.GetComponent<PortalScript> ().b_portalAwake) {
+				collision.GetComponent<PortalScript> ().PortalState ();
+			} else if (!collision.GetComponent<PortalScript> ().b_portalAwake) {
+				if (b_haveKey) {
+					if (collision.GetComponent<PortalScript> ().i_portalNum <= 12) {
+						collision.GetComponent<PortalScript> ().b_portalAwake = true;
+						b_haveKey = false;
+					}
+
+				}
+			}
+            
+		}
+
+	}
+		
+		void OnTriggerExit2D(Collider2D collision)
+		{
+		if (collision.CompareTag ("SafetyZone")) {
+			b_Safety = false;
+		} else {
+		}
+
+		}
+
     }
-
-    //
-}
-
