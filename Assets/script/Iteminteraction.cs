@@ -57,7 +57,7 @@ public class Iteminteraction : MonoBehaviour {
 	}
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (Input.GetKey(KeyCode.F))
+        if (Input.GetKey(KeyCode.Joystick1Button1))
         {
             if (i_Number == 1)
             {
@@ -71,7 +71,7 @@ public class Iteminteraction : MonoBehaviour {
         }
 
 
-        if (Input.GetKey(KeyCode.F))
+        if (Input.GetKey(KeyCode.Joystick1Button1))
         {
             if (i_Number == 10)
             {
@@ -120,7 +120,7 @@ public class Iteminteraction : MonoBehaviour {
     private void OnTriggerStay2D(Collider2D collision)
     {
         
-        if(Input.GetKey(KeyCode.F))
+        if(Input.GetKey(KeyCode.Joystick1Button1))
         {
             if (collision.gameObject.CompareTag("Player"))
             {

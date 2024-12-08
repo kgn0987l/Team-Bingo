@@ -94,7 +94,7 @@ public class Player : MonoBehaviour
                 b_MoveStop = true;
             }
 
-            if(Input.GetKey(KeyCode.R))
+            if(Input.GetKey(KeyCode.Joystick1Button0))
             {
                 sprt_rander.sprite = list_Down[0];
                 b_Down = true;
