@@ -47,7 +47,7 @@ public class Player : MonoBehaviour
         scr_Game_MNG.b_StartCheck = true;
         Debug.Log(scr_Game_MNG.b_StartCheck);
         b_filp_X = false;
-        p_Speed = 1.5f;
+        p_Speed = 2.5f;
     }
     // Use this for initialization
 
@@ -132,47 +132,31 @@ public class Player : MonoBehaviour
                 }
             }
 
-            if (Input.GetKey(KeyCode.D))
+            // 조이스틱 입력 받기
+            float moveHorizontal = Input.GetAxis("Horizontal"); // -1(왼쪽) ~ 1(오른쪽)
+            float moveVertical = Input.GetAxis("Vertical");     // -1(아래) ~ 1(위)
+
+            // 이동 처리
+            Vector3 movement = new Vector3(moveHorizontal, moveVertical, 0) * p_Speed * Time.deltaTime;
+            transform.position += movement;
+
+            // 캐릭터 방향 플립
+            if (moveHorizontal > 0) // 오른쪽 이동
             {
-                b_MoveStop = false;
+                transform.localScale = new Vector3(-1, transform.localScale.y, transform.localScale.z);
                 b_filp_X = true;
-                transform.position += new Vector3(p_Speed, 0, 0) * p_Speed * Time.deltaTime;
-                if (transform.localScale.x > 0)
-                    transform.localScale = new Vector3(-1, transform.localScale.y, transform.localScale.z);
-                if (b_AnimeCheck)
-                {
-                    f_waitTime_cur += Time.deltaTime;
-                    if (f_waitTime_cur > f_AniwaitTimeMv)
-                    {
-                        if (i_indexNum >= list_Spt.Count)
-                        {
-                            i_indexNum = 0;
-                        }
-                        //b_AnimeCheck = false;
-                        f_waitTime_cur = 0;
-
-                        sprt_rander.sprite = list_Spt[i_indexNum];
-                        i_indexNum++;
-                     //   Debug.Log(i_indexNum); b_AnimeCheck = true;
-
-                    }
-
-                }
             }
-            else
+            else if (moveHorizontal < 0) // 왼쪽 이동
             {
-            
-            }
-
-
-
-            if (Input.GetKey(KeyCode.A))
-            {
+                transform.localScale = new Vector3(1, transform.localScale.y, transform.localScale.z);
                 b_filp_X = false;
+            }
+
+            // 애니메이션 업데이트
+            if (movement.magnitude > 0) // 이동 중
+            {
                 b_MoveStop = false;
-                transform.position -= new Vector3(p_Speed, 0, 0) * p_Speed * Time.deltaTime;
-                if (transform.localScale.x < 0)
-                    transform.localScale = new Vector3(1, transform.localScale.y, transform.localScale.z);
+
                 if (b_AnimeCheck)
                 {
                     f_waitTime_cur += Time.deltaTime;
@@ -182,87 +166,18 @@ public class Player : MonoBehaviour
                         {
                             i_indexNum = 0;
                         }
-                        //b_AnimeCheck = false;
-                        f_waitTime_cur = 0;
 
+                        f_waitTime_cur = 0;
                         sprt_rander.sprite = list_Spt[i_indexNum];
                         i_indexNum++;
-                        // Debug.Log(i_indexNum);
-                        b_AnimeCheck = true;
-                      
-                    }
-
-                }
-            }
-            else
-            {
-          
-            }
-
-            if (Input.GetKey(KeyCode.S))
-            {
-                b_filp_X = false;
-                b_MoveStop = false;
-                transform.position -= new Vector3(0, p_Speed, 0) * p_Speed * Time.deltaTime;
-                if (transform.localScale.y < 0)
-                    transform.localScale = new Vector3(transform.localScale.x, 1, transform.localScale.z);
-                if (b_AnimeCheck)
-                {
-                    f_waitTime_cur += Time.deltaTime;
-                    if (f_waitTime_cur > f_AniwaitTimeMv)
-                    {
-                        if (i_indexNum >= list_Spt.Count)
-                        {
-                            i_indexNum = 0;
-                        }
-                        //b_AnimeCheck = false;
-                        f_waitTime_cur = 0;
-
-                        sprt_rander.sprite = list_Spt[i_indexNum];
-                        i_indexNum++;
-                        //Debug.Log(i_indexNum);
-                        b_AnimeCheck = true;
-                     
-                    }
-
-                }
-            }
-            else
-            {
-            
-            }
-
-            if (Input.GetKey(KeyCode.W))
-            {
-                b_filp_X = false;
-                b_MoveStop = false;
-                transform.position += new Vector3(0, p_Speed, 0) * p_Speed * Time.deltaTime;
-                if (transform.localScale.y < 0)
-                    transform.localScale = new Vector3(transform.localScale.x, 1, transform.localScale.z);
-                if (b_AnimeCheck)
-                {
-                    f_waitTime_cur += Time.deltaTime;
-                    if (f_waitTime_cur > f_AniwaitTimeMv)
-                    {
-                        if (i_indexNum >= list_Spt.Count)
-                        {
-                            i_indexNum = 0;
-                        }
-                        //b_AnimeCheck = false;
-                        f_waitTime_cur = 0;
-
-                        sprt_rander.sprite = list_Spt[i_indexNum];
-                        i_indexNum++;
-                        //Debug.Log(i_indexNum);
-                        b_AnimeCheck = true;
-                       
                     }
                 }
             }
-            else
+            else // 정지 상태
             {
-               
+                b_MoveStop = true;
             }
+
 
         }
         /* if (b_AnimeCheck)

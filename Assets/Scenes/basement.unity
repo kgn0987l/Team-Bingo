@@ -7712,7 +7712,7 @@ MonoBehaviour:
   scr_Game_MNG: {fileID: 1511440463}
   t_moveOne: {fileID: 0}
   b_filp_X: 0
-  p_Speed: 0
+  p_Speed: 1
   list_Spt:
   - {fileID: 21300000, guid: e9277a42eb701a74bbe5af3a9201dbda, type: 3}
   - {fileID: 21300000, guid: 9600d7ff69dc19f4ab906500a4826ebf, type: 3}
