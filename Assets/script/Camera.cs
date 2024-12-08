@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Camera : MonoBehaviour {
 
@@ -100,13 +101,24 @@ public class Camera : MonoBehaviour {
     public void Camera_MoveSet_15()
     {
         transform.position = new Vector3(t_transform_15.transform.position.x, -0.55f, transform.position.z);
+        Invoke("ExitGame", 1);
     }
 
 
 	public void Camera_GameOver(){
 
 		transform.position = new Vector3(t_Diedform.transform.position.x, -0.55f, transform.position.z);
-		go_ui.SetActive (false);
+        Invoke("ExitGame", 1);
+        go_ui.SetActive (false);
 	}
+
+    public void ExitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit(); // 어플리케이션 종료
+#endif
+    }
 
 }

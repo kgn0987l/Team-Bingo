@@ -56,4 +56,9 @@ public class CameraManager : MonoBehaviour {
     {
         transform.position = new Vector3(12.7f, transform.position.y, transform.position.z);
     }
+
+    private void OnDestroy()
+    {
+        Destroy(this.gameObject);
+    }
 }
